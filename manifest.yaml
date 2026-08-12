@@ -1,0 +1,34 @@
+name: chenshiduo-diagnosis
+displayName: 陈士铎医学辨证施治
+version: 1.0.0
+description: 基于《陈士铎医学全书》的辨证施治技能：四诊采集→八纲辨证→脏腑定位→核心病机（心肾相交/脾胃中气/奇恒病机）→八法治则→处方医嘱→免责声明。
+category: 医疗健康
+author: Administrator
+license: MIT
+triggers:
+  - 中医诊断
+  - 中医辨证
+  - 辨证论治
+  - 陈士铎
+  - 开方
+  - 症状分析
+  - 四诊
+  - 健康咨询
+  - 亚健康
+  - 失眠
+  - 虚劳
+  - 心肾不交
+  - 脾胃虚弱
+  - 肾虚
+  - 气血不足
+dependencies:
+  runtime: none
+  external_apis: none
+file_structure:
+  - SKILL.md
+  - test-prompts.json
+safety:
+  scan_passed: true
+  medical_disclaimer: true
+  no_external_calls: true
+  no_data_exfiltration: true
