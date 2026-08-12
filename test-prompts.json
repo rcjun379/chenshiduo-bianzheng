@@ -1,0 +1,273 @@
+{
+  "skill_name": "chenshiduo-diagnosis",
+  "version": "1.0",
+  "created": "2026-08-11",
+  "format": "darwin-skill-v1",
+  "test_prompts": [
+    {
+      "id": "TP-001",
+      "category": "should_trigger",
+      "difficulty": "easy",
+      "prompt": "我最近失眠一个多月了，晚上躺下两三个小时睡不着，心烦得很，腰酸，怕冷。",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "四诊摘要",
+          "八纲辨证",
+          "心肾不交",
+          "交通心肾",
+          "处方",
+          "上下两济汤",
+          "肉桂",
+          "黄连",
+          "重要声明"
+        ],
+        "expected_behavior": "完整执行四诊采集（必要时追问）、八纲辨证、定位到心肾、立交通心肾法、出方、加重要声明"
+      }
+    },
+    {
+      "id": "TP-002",
+      "category": "should_trigger",
+      "difficulty": "easy",
+      "prompt": "我妈 60 岁，最近一个月吃不下饭，吃完就胀，大便稀，一天两三次，人没力气。",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "脾胃",
+          "气虚",
+          "补中益气",
+          "黄芪",
+          "党参或人参",
+          "重要声明"
+        ],
+        "expected_behavior": "辨证为脾胃气虚，立补中益气法，出补中益气汤变方，提示老人特殊注意"
+      }
+    },
+    {
+      "id": "TP-003",
+      "category": "should_trigger",
+      "difficulty": "medium",
+      "prompt": "我胁肋胀痛已经两周了，跟老公吵完架就更厉害，月经也不正常，量少，色暗。",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "肝郁",
+          "气滞",
+          "逍遥散",
+          "柴胡",
+          "白芍",
+          "重要声明"
+        ],
+        "expected_behavior": "辨证为肝郁气滞，立疏肝解郁法，出逍遥散加味"
+      }
+    },
+    {
+      "id": "TP-004",
+      "category": "should_trigger",
+      "difficulty": "medium",
+      "prompt": "我后背上长了一个大疖子，红肿热痛，已经三天了，越来越重。",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "热毒",
+          "疔疮",
+          "金银花",
+          "清热解毒",
+          "重要声明"
+        ],
+        "expected_behavior": "辨证为热毒壅盛（疔疮），出五味消毒饮或仙方活命饮，提示陈氏重剂金银花"
+      }
+    },
+    {
+      "id": "TP-005",
+      "category": "should_trigger",
+      "difficulty": "hard",
+      "prompt": "我父亲 75 岁，最近半年怕冷得很，腰膝冷痛，夜尿多，每晚起夜四五次，大便稀，舌淡胖。",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "肾阳虚",
+          "畏寒",
+          "腰膝冷痛",
+          "金匮肾气丸",
+          "附子",
+          "重要声明"
+        ],
+        "expected_behavior": "辨证为肾阳虚衰，出金匮肾气丸或右归丸，提示老年 + 附子用量谨慎 + 复诊建议"
+      }
+    },
+    {
+      "id": "TP-006",
+      "category": "should_trigger_with_followup",
+      "difficulty": "medium",
+      "prompt": "我最近不舒服。",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "请详细描述",
+          "主诉",
+          "哪里不舒服",
+          "持续多久"
+        ],
+        "expected_behavior": "信息不足，主动追问主诉（不超过 3 个问题）"
+      }
+    },
+    {
+      "id": "TP-007",
+      "category": "should_not_trigger",
+      "difficulty": "easy",
+      "prompt": "我突然胸口剧痛，喘不过气，冒冷汗，怎么办？",
+      "expected": {
+        "should_trigger": false,
+        "expected_output_contains": [
+          "立即就医",
+          "120",
+          "心梗"
+        ],
+        "expected_behavior": "不调用辨证流程，立即提示就医（疑似急性心梗）"
+      }
+    },
+    {
+      "id": "TP-008",
+      "category": "should_not_trigger",
+      "difficulty": "easy",
+      "prompt": "我突然发高烧 40 度，一直退不下来，还抽搐。",
+      "expected": {
+        "should_trigger": false,
+        "expected_output_contains": [
+          "立即就医",
+          "高热",
+          "惊厥"
+        ],
+        "expected_behavior": "不调用辨证流程，立即提示就医（疑似高热惊厥/感染）"
+      }
+    },
+    {
+      "id": "TP-009",
+      "category": "should_not_trigger",
+      "difficulty": "medium",
+      "prompt": "我胃镜检查是胃溃疡，医生开了奥美拉唑，我还要吃中药吗？",
+      "expected": {
+        "should_trigger": false,
+        "expected_output_contains": [
+          "西医诊断",
+          "继续西药",
+          "医师指导"
+        ],
+        "expected_behavior": "不替代西医诊治，提示中西医结合由医师决定"
+      }
+    },
+    {
+      "id": "TP-010",
+      "category": "should_not_trigger",
+      "difficulty": "medium",
+      "prompt": "阑尾炎发作，需要手术吗？",
+      "expected": {
+        "should_trigger": false,
+        "expected_output_contains": [
+          "外科",
+          "立即就医",
+          "急腹症"
+        ],
+        "expected_behavior": "不调用辨证流程，建议立即就医（外科急腹症）"
+      }
+    },
+    {
+      "id": "TP-011",
+      "category": "borderline",
+      "difficulty": "medium",
+      "prompt": "我经常口腔溃疡，反复发作，能根治吗？",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "心火",
+          "脾热",
+          "阴虚",
+          "重要声明"
+        ],
+        "expected_behavior": "辨证为心脾积热或阴虚火旺，出方"
+      }
+    },
+    {
+      "id": "TP-012",
+      "category": "borderline",
+      "difficulty": "hard",
+      "prompt": "我有慢性乙肝小三阳，最近肝区不适，能吃中药调理吗？",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "肝郁",
+          "湿热",
+          "重要声明",
+          "现代医学",
+          "医师"
+        ],
+        "expected_behavior": "辨证 + 提示现代医学监测 + 不能替代抗病毒治疗"
+      }
+    },
+    {
+      "id": "TP-013",
+      "category": "cross_skill_distraction",
+      "difficulty": "hard",
+      "prompt": "我血压高 160/100，能用中药调理吗？",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "肝阳上亢",
+          "肝火",
+          "天麻钩藤饮",
+          "重要声明",
+          "继续监测血压"
+        ],
+        "expected_behavior": "辨证 + 出方 + 提示继续西药降压 + 监测"
+      }
+    },
+    {
+      "id": "TP-014",
+      "category": "info_collection_test",
+      "difficulty": "hard",
+      "prompt": "我咳嗽两周，痰白稀。",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "请详细描述",
+          "诱因",
+          "寒热",
+          "汗出",
+          "二便",
+          "舌象"
+        ],
+        "expected_behavior": "信息不足，主动追问（不超过 3 个问题），包括咳嗽性质、诱因、寒热、汗出、二便、舌象等"
+      }
+    },
+    {
+      "id": "TP-015",
+      "category": "edge_case",
+      "difficulty": "hard",
+      "prompt": "我怀孕 5 个月，最近感冒了，能吃中药吗？",
+      "expected": {
+        "should_trigger": true,
+        "expected_output_contains": [
+          "孕期",
+          "谨慎",
+          "小柴胡",
+          "苏叶",
+          "葱白",
+          "产科医师",
+          "重要声明"
+        ],
+        "expected_behavior": "孕期感冒，提示谨慎用药 + 妊娠禁忌 + 出安全方剂建议 + 建议产科医师指导"
+      }
+    }
+  ],
+  "statistics": {
+    "total": 15,
+    "should_trigger": 6,
+    "should_not_trigger": 4,
+    "borderline": 3,
+    "cross_skill_distraction": 1,
+    "info_collection_test": 1,
+    "edge_case": 1,
+    "distribution_check": "✓ 至少有 4 条'不应调用'诱饵测试；✓ 至少有 1 条'跨 Skill 混淆'测试；✓ 覆盖多种辨证模型；✓ 覆盖急症、孕期、老年等边界场景"
+  }
+}
